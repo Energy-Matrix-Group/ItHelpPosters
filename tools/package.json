@@ -1,0 +1,14 @@
+{
+  "name": "emg-it-posters-tools",
+  "private": true,
+  "description": "Checks the IT help posters page and renders every poster to PDF. The page itself needs no build.",
+  "type": "module",
+  "scripts": {
+    "test": "node check.mjs",
+    "pdf": "node check.mjs --pdf"
+  },
+  "devDependencies": {
+    "jsqr": "1.4.0",
+    "playwright": "1.56.1"
+  }
+}

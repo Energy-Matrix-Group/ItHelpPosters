@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IT Help Posters | Energy Matrix Group</title>
+<meta name="description" content="Posters and QR codes for the Board Room and the Meeting Room: fixing a Teams call, sharing a screen, and raising a ticket from the room.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B3340">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<script>try { var t = localStorage.getItem('emg-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/studio.css">
+<link rel="stylesheet" href="assets/css/posters.css">
+<!-- studio.js keeps this at the paper size of what is about to print. -->
+<style id="page-size">@page { size: 210mm 297mm; margin: 0; }</style>
+<!-- Classic scripts, in order, so the page also works when this file is opened straight from disk. -->
+<script src="assets/vendor/qrcode.js" defer></script>
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/brand.js" defer></script>
+<script src="assets/js/art.js" defer></script>
+<script src="assets/js/studio.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#posters">Skip to the posters</a>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#top" class="top__logo" aria-label="Energy Matrix Group, back to the top" data-logo></a>
+    <a class="top__title" href="#top">IT help posters</a>
+    <nav aria-label="Sections">
+      <a href="#posters">Posters</a>
+      <a href="#qr">QR codes</a>
+      <a href="#guide">Putting them up</a>
+      <a href="#how">How the QR codes work</a>
+    </nav>
+    <button class="iconbtn theme" id="theme" type="button" aria-label="Switch theme"></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="sec hero-sec" aria-labelledby="hero-title">
+    <div class="wrap hero">
+      <div class="sec__head">
+        <p class="eyebrow">IT help posters</p>
+        <h1 class="h1" id="hero-title">Help that lives <span class="hl">in the room</span></h1>
+        <p class="lede">Posters and QR codes for the Board Room and the Meeting Room: getting a Teams call working, sharing a screen, and raising a ticket from the room you're in.</p>
+        <ol class="steps">
+          <li><b>1</b>Pick a room</li>
+          <li><b>2</b>Pick a poster</li>
+          <li><b>3</b>Print, or save as PDF</li>
+        </ol>
+        <div class="hero__cta">
+          <a class="btn" href="#posters">Make a poster <span data-icon="arrow" data-icon-class="arrow"></span></a>
+          <a class="btn btn--line" href="#qr"><span data-icon="qr"></span>Make a QR code</a>
+        </div>
+      </div>
+      <div class="fan" id="fan" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="sec sec--alt" id="posters" aria-labelledby="posters-title">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Posters</p>
+        <h2 class="h2" id="posters-title">Pick a room and a poster, <span class="hl">then print</span></h2>
+        <p class="lede">Every poster carries the room's QR code, so whoever is stuck can raise a ticket on the spot. Edit the room's details and the posters follow.</p>
+      </div>
+
+      <div class="studio">
+        <form class="panel" id="studio-form" aria-label="Poster settings" onsubmit="return false">
+          <fieldset class="field">
+            <legend class="label">Room</legend>
+            <div class="seg" data-rooms="room"></div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="label">Poster</legend>
+            <div class="pick" id="poster-pick"></div>
+          </fieldset>
+
+          <div class="field-row">
+            <fieldset class="field">
+              <legend class="label">Paper</legend>
+              <div class="seg" id="size-pick"></div>
+            </fieldset>
+            <fieldset class="field">
+              <legend class="label">Colour</legend>
+              <div class="seg seg--wrap" id="theme-pick"></div>
+            </fieldset>
+          </div>
+
+          <details class="roomedit" id="room-edit">
+            <summary><span data-icon="room"></span><span>Room details</span><span class="roomedit__hint" id="room-edit-hint"></span></summary>
+            <div class="roomedit__body" id="room-fields"></div>
+          </details>
+
+          <div class="actions">
+            <button class="btn" type="button" id="print-one"><span data-icon="printer"></span>Print or save as PDF</button>
+            <button class="btn btn--line" type="button" id="print-set"><span data-icon="printer"></span><span id="print-set-label">Print the room's 3 posters</span></button>
+          </div>
+          <p class="small tip">In the print dialog choose <b>Save as PDF</b> to make a file. Keep the scale at 100% and the margins at None.</p>
+        </form>
+
+        <div class="stage">
+          <div class="stage__bar"><span id="stage-label"></span><span id="stage-size"></span></div>
+          <div class="stage__paper" id="stage"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="qr" aria-labelledby="qr-title">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">QR codes</p>
+        <h2 class="h2" id="qr-title">A QR code for <span class="hl">every room and problem</span></h2>
+        <p class="lede">Scanning one opens a new ticket with the room and the problem already filled in. Stick one on the screen's bezel, pin it in the room's Teams chat, or print it on a label.</p>
+      </div>
+
+      <div class="qrgrid">
+        <form class="panel" id="qr-form" aria-label="QR code settings" onsubmit="return false">
+          <fieldset class="field">
+            <legend class="label">Room</legend>
+            <div class="seg" data-rooms="qrRoom"></div>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="label">Problem</legend>
+            <div class="issues" id="issue-pick"></div>
+          </fieldset>
+          <fieldset class="field">
+            <legend class="label">Scanning opens</legend>
+            <div class="seg" id="target-pick"></div>
+            <p class="small hint">Used by the posters too.</p>
+          </fieldset>
+          <label class="field">
+            <span class="label">Priority</span>
+            <select class="input" id="priority-pick"></select>
+          </label>
+        </form>
+
+        <div class="qrout" id="qr-out" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--alt" id="guide" aria-labelledby="guide-title">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Putting them up</p>
+        <h2 class="h2" id="guide-title">Where each one goes, <span class="hl">and how to print it</span></h2>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Poster</th><th>Paper</th><th>Where it goes</th><th>Colour</th></tr></thead>
+          <tbody id="guide-rows"></tbody>
+        </table>
+      </div>
+      <div class="tips">
+        <div class="tipcard"><span class="label">Print it</span><p>Print at <b>100%</b> (Actual size) with the margins at <b>None</b>. Office printers leave a thin white edge; that's expected.</p></div>
+        <div class="tipcard"><span class="label">Save ink</span><p>Choose <b>White</b> under Colour. The posters keep coral for the highlights and print well in black and white too.</p></div>
+        <div class="tipcard"><span class="label">Test the code</span><p>Before a poster goes up, scan its QR code with your own phone and check the ticket opens for the right room.</p></div>
+        <div class="tipcard"><span class="label">Make it last</span><p>Laminate the posters, or slip them into a frame. Put the table tent in a stand or laminate it before folding.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="how" aria-labelledby="how-title">
+    <div class="wrap how">
+      <div class="sec__head">
+        <p class="eyebrow">How the QR codes work</p>
+        <h2 class="h2" id="how-title">From the room <span class="hl">to a ticket</span></h2>
+        <p class="lede">The code goes through the EMG Portal, so it works on any phone and whatever Ticketing's own address is. Someone who isn't signed in signs in with their work email first, and lands back on the form.</p>
+      </div>
+      <ol class="flow">
+        <li><span data-icon="phone"></span><b>Scan</b><span>The phone's camera reads the code on the poster.</span></li>
+        <li><span data-icon="shield"></span><b>Sign in</b><span>The portal checks who it is, and that they can use Ticketing.</span></li>
+        <li><span data-icon="ticketing"></span><b>New Ticket</b><span>Ticketing opens New Ticket with the room and the problem filled in.</span></li>
+        <li><span data-icon="check"></span><b>Create Ticket</b><span>They add what happened and send it. IT sees which room it came from.</span></li>
+      </ol>
+      <div class="fields">
+        <p class="label">What the link carries</p>
+        <div class="tablewrap">
+          <table class="fieldtable">
+            <thead><tr><th>Field</th><th>Example</th><th>On the form</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">subject</td><td>Board Room: camera not working</td><td>Subject</td></tr>
+              <tr><td class="mono">description</td><td>Raised from the QR code in the Board Room (Level 2).</td><td>Description, ready for them to add what happened</td></tr>
+              <tr><td class="mono">category</td><td>Facilities / AV</td><td>Category, matched by name</td></tr>
+              <tr><td class="mono">subcategory</td><td>Conference room AV issue</td><td>Subcategory, matched by name, which also fills the team</td></tr>
+              <tr><td class="mono">priority</td><td>High</td><td>Priority, left out when it is Medium</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note"><span class="tbc">Ticketing</span> The New Ticket form fills itself in from these fields once Ticketing reads them from the address. Until then the code opens an empty New Ticket form. Choose <b>Email to the service desk</b> under QR codes for codes that arrive filled in today.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span data-logo></span>
+    <p>IT help posters for EMG's meeting rooms. Made by the IT team, in the EMG Portal's brand. For EMG staff.</p>
+  </div>
+</footer>
+
+<!-- The sheets the print dialog prints. studio.js keeps the current poster here. -->
+<div class="print-root" id="print-root" aria-hidden="true"></div>
+</body>
+</html>

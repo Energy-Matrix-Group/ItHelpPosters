@@ -1,0 +1,166 @@
+/* The posters. Every size is in cqw (a hundredth of the sheet's width), so one design previews at any width and prints
+   at A5, A4 or A3. Posters keep their own colours in both page themes, because they are printed. The colours are the
+   launch artwork's (emg-portal-landingpage, tools/art/art.css). */
+.sheet {
+  --bg: #2B3340;
+  --ink: #FFFFFF;
+  --head: #FFFFFF;
+  --muted: #B7C2D0;
+  --line: rgba(255, 255, 255, .16);
+  --coral: #E47454;
+  --hl: #E47454;
+  --off: #161B22;
+  --screen: #F4F7FA;
+  --tile-n: #415A7E; --tile-s: #9DC0D7; --tile-i: #CCEBF7; --tile-c: #E47454; --tile-d: #FFFFFF;
+  --word: #FFFFFF;
+  --ghost: rgba(255, 255, 255, .14);
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ratio);
+  container-type: inline-size;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Montserrat", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  line-height: 1.35;
+  text-align: left;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.sheet.t-navy { --bg: #415A7E; --muted: #DCE6F2; --line: rgba(255, 255, 255, .24); --ghost: rgba(255, 255, 255, .2); --off: #2B3340; }
+.sheet.t-paper {
+  --bg: #FFFFFF; --ink: #2B3340; --head: #415A7E; --muted: #566275; --line: #DCE3EC;
+  --hl: #E06C4B; --off: #2B3340; --tile-d: #2E3541; --word: #231F20; --ghost: #CBD5E0;
+}
+.sheet *, .sheet *::before, .sheet *::after { box-sizing: border-box; }
+.sheet :is(p, h2, h3, ol, ul, dl, dd, dt, figure) { margin: 0; padding: 0; }
+.sheet b { font-weight: 700; color: var(--head); }
+.sheet .art { position: absolute; inset: 0; padding: 6.4cqw 7cqw; display: flex; flex-direction: column; gap: 4.2cqw; }
+
+/* Header: the logo, and the room as a tag */
+.p-head { display: flex; align-items: center; justify-content: space-between; gap: 4cqw; position: relative; }
+.p-logo { display: block; width: 22cqw; height: auto; flex: none; }
+.p-logo .ln { fill: var(--tile-n); } .p-logo .ls { fill: var(--tile-s); } .p-logo .li { fill: var(--tile-i); }
+.p-logo .lc { fill: var(--tile-c); } .p-logo .ld { fill: var(--tile-d); } .p-logo .lw { fill: var(--word); }
+.p-room {
+  display: inline-flex; align-items: center; gap: 1.6cqw; padding: 1.3cqw 2.2cqw;
+  border: .3cqw solid var(--coral); font-size: 2.1cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--head); white-space: nowrap;
+}
+.p-dia { display: block; width: 1.3cqw; height: 1.3cqw; background: var(--coral); transform: rotate(45deg); flex: none; }
+
+/* Words */
+.p-title { display: grid; gap: 2.2cqw; position: relative; }
+.p-kicker { display: flex; align-items: center; gap: 1.6cqw; font-size: 2.1cqw; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--coral); }
+.p-kicker::after { content: ""; width: 5cqw; height: .35cqw; background: var(--coral); flex: none; }
+.p-say { font-size: 9.4cqw; font-weight: 800; letter-spacing: -.035em; line-height: 1.02; color: var(--head); }
+.p-hl { color: var(--hl); }
+.p-lede { font-size: 2.6cqw; line-height: 1.45; color: var(--muted); max-width: 74cqw; }
+.p-h3 { font-size: 2.9cqw; font-weight: 800; letter-spacing: -.015em; color: var(--head); line-height: 1.2; }
+.p-path { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-weight: 600; font-size: .94em; color: var(--head); }
+.p-kbd {
+  display: inline-grid; place-items: center; min-width: 1.75em; height: 1.75em; padding: 0 .35em; margin: 0 .05em;
+  border: .09em solid currentColor; border-bottom-width: .2em; vertical-align: -.45em;
+  font: 700 .82em/1 "IBM Plex Mono", ui-monospace, Consolas, monospace; color: var(--head); white-space: nowrap;
+}
+.p-win { display: block; width: .95em; height: .95em; fill: currentColor; }
+.p-plus { margin: 0 .2em; font-weight: 700; color: var(--muted); }
+.p-combo { display: inline-flex; align-items: center; white-space: nowrap; vertical-align: middle; }
+.p-combo .p-kbd { vertical-align: 0; }
+
+/* The help strip along the bottom, with the QR code */
+.p-band { margin-top: auto; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4cqw; align-items: center; padding-top: 3.2cqw; border-top: .5cqw solid var(--coral); }
+.p-qr { width: 18cqw; background: #FFFFFF; flex: none; }
+.p-qr svg { display: block; width: 100%; height: auto; }
+.p-band__text { display: grid; gap: 1cqw; font-size: 2.2cqw; line-height: 1.42; }
+.p-band__h { font-size: 4.2cqw; font-weight: 800; letter-spacing: -.025em; line-height: 1.1; color: var(--head); }
+.p-band__alt { font-size: 2cqw; color: var(--muted); }
+.p-band__alt b { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-weight: 600; }
+
+/* 1. Teams calls: six fixes in a ruled grid */
+.sheet .art--teams { gap: 3cqw; }
+.art--teams .p-say { font-size: 8.2cqw; }
+.p-tiles { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: .25cqw solid var(--line); border-left: .25cqw solid var(--line); }
+.p-tile { display: grid; gap: 1.4cqw; align-content: start; padding: 2.4cqw 2.8cqw 2.8cqw; border-right: .25cqw solid var(--line); border-bottom: .25cqw solid var(--line); }
+.p-tile__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.8cqw; align-items: center; }
+.p-tile .ic { width: 4.6cqw; height: 4.6cqw; color: var(--coral); }
+.p-tile h3 { font-size: 2.8cqw; font-weight: 800; letter-spacing: -.015em; line-height: 1.15; color: var(--head); }
+.p-tile p { font-size: 2.1cqw; line-height: 1.45; }
+
+/* 2. Sharing: Windows + P, the four modes, sharing in Teams, desktops */
+.sheet .art--sharing { gap: 2.4cqw; }
+.p-say--keys { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 3.6cqw; font-size: 6.6cqw; }
+.p-say--keys > .p-combo .p-kbd { font-size: 1em; border-width: .07em; border-bottom-width: .15em; }
+.p-say--keys > .p-combo .p-plus { font-size: .8em; }
+.p-say__rest { font-size: 5.2cqw; line-height: 1.05; }
+.p-modes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.6cqw; }
+.p-mode { position: relative; display: grid; gap: 1.4cqw; align-content: start; }
+.p-mode figcaption, .p-share figcaption { display: grid; gap: .7cqw; font-size: 1.9cqw; line-height: 1.4; }
+.p-mode figcaption b { font-size: 2.4cqw; font-weight: 800; letter-spacing: -.01em; line-height: 1.15; }
+.p-tag { position: absolute; left: 0; top: 0; transform: translateY(-50%); padding: .4cqw 1cqw; background: var(--coral); color: #FFFFFF; font-size: 1.5cqw; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.p-diag { display: block; width: 100%; height: auto; overflow: visible; }
+.p-diag .fr { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: square; }
+.p-diag .s-bg { fill: var(--screen); }
+.p-diag .s-off { fill: var(--off); }
+.p-diag .s-a { fill: #E47454; }
+.p-diag .s-b { fill: #9DC0D7; }
+.p-diag .s-line { fill: none; stroke: #8793A5; stroke-width: 1.6; }
+.p-diag .s-win { fill: #FFFFFF; }
+.p-diag .s-shared { fill: none; stroke: #E47454; stroke-width: 3; }
+.p-mode .p-diag { padding: 1.4cqw; border: .25cqw solid var(--line); }
+.p-mode.is-pick .p-diag { border-color: var(--coral); border-width: .45cqw; }
+.p-sec { display: grid; gap: 1.6cqw; padding-top: 2.4cqw; border-top: .25cqw solid var(--line); }
+.p-share { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4cqw; }
+.p-share figure { display: grid; grid-template-columns: 14cqw minmax(0, 1fr); gap: 2.2cqw; align-items: start; }
+.p-share figcaption b { font-size: 2.4cqw; font-weight: 800; }
+.p-desks { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 4cqw; align-items: start; font-size: 1.95cqw; line-height: 1.65; }
+.p-desks > div { display: grid; gap: 1cqw; }
+.p-desks .p-kbd, .p-band .p-kbd, .p-keys .p-kbd { font-size: .8em; }
+.p-keys { list-style: none; display: grid; gap: 1.6cqw; padding-top: 4cqw; }
+.p-keys li { display: grid; gap: .6cqw; justify-items: start; }
+.p-keys li > span:last-child { color: var(--muted); font-size: 1.85cqw; line-height: 1.35; }
+
+/* 3. Raise a ticket here: one big code */
+.p-deco { position: absolute; right: -31cqw; top: 13cqw; width: 60cqw; pointer-events: none; }
+.p-deco .mark { display: block; width: 100%; height: auto; overflow: visible; }
+.p-deco .t-ghost { fill: transparent; stroke: var(--ghost); stroke-width: 1.3px; vector-effect: non-scaling-stroke; }
+.p-deco .t-c { fill: var(--tile-c); }
+.p-badge { position: relative; display: grid; place-items: center; width: 13cqw; height: 13cqw; margin-left: -1.6cqw; }
+.p-badge::before { content: ""; position: absolute; inset: 2.1cqw; background: var(--coral); transform: rotate(45deg); }
+.p-badge .ic { position: relative; width: 5.6cqw; height: 5.6cqw; color: #FFFFFF; }
+.art--ticket .p-say { font-size: 8.6cqw; max-width: 80cqw; }
+.art--ticket .p-lede { color: var(--ink); max-width: 66cqw; }
+.p-scan { margin-top: auto; display: grid; grid-template-columns: 44cqw minmax(0, 1fr); gap: 5cqw; align-items: end; }
+.p-qr--big { width: 44cqw; }
+.p-filled { display: grid; gap: 2cqw; padding-bottom: .6cqw; }
+.p-filled dt { font-size: 1.9cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+.p-filled dd { display: grid; gap: .4cqw; padding-left: 2cqw; border-left: .4cqw solid var(--coral); font: 600 2.2cqw/1.3 "IBM Plex Mono", ui-monospace, Consolas, monospace; color: var(--head); }
+.p-filled dd span { font: 600 1.6cqw/1.2 "Montserrat", "Segoe UI", system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.p-foot { padding-top: 3.4cqw; border-top: .25cqw solid var(--line); font-size: 2.2cqw; color: var(--muted); }
+.p-foot b { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-weight: 600; }
+
+/* 4. Table tent: A4 landscape, folded along the middle. The top face is upside down so both read upright. */
+.sheet .art--tent { padding: 0; gap: 0; display: grid; grid-template-rows: minmax(0, 1fr) 0 minmax(0, 1fr); }
+.tent-face { display: grid; grid-template-columns: 28cqw minmax(0, 1fr); gap: 3.4cqw; align-items: center; padding: 3cqw 4.2cqw; min-height: 0; }
+.tent-face.is-flipped { transform: rotate(180deg); }
+.tent-id { display: grid; gap: 1.2cqw; align-content: center; }
+.tent-id .p-logo { width: 15cqw; margin-bottom: 1cqw; }
+.tent-id .p-kicker { font-size: 1.35cqw; }
+.tent-id .p-kicker::after { width: 3cqw; height: .25cqw; }
+.tent-id .p-say { font-size: 3.7cqw; }
+.tent-id .p-lede { font-size: 1.45cqw; }
+.tent-codes { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.2cqw; align-items: start; }
+.tent-codes li { display: grid; gap: 1.1cqw; justify-items: center; text-align: center; font-size: 1.6cqw; font-weight: 800; letter-spacing: -.01em; color: var(--head); }
+.tent-codes .p-qr { width: 100%; outline: .2cqw solid var(--line); }
+.tent-fold { position: relative; border-top: .2cqw dashed var(--muted); }
+.tent-fold span { position: absolute; right: 2cqw; top: 0; transform: translateY(-50%); padding: 0 1cqw; background: var(--bg); font-size: 1.1cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+/* What prints: only the sheets in .print-root, each a page. */
+.print-root { display: none; }
+@media print {
+  html, body { background: #FFFFFF !important; }
+  body > :not(.print-root) { display: none !important; }
+  .print-root { display: block; }
+  .print-root .sheet { width: var(--pw); height: calc(var(--ph) - .4mm); aspect-ratio: auto; break-after: page; break-inside: avoid; }
+  .print-root .sheet:last-child { break-after: auto; }
+}
