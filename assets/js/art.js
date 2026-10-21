@@ -20,13 +20,17 @@
   // ---------------------------------------------------------------- ticket links
 
   const issue = (id) => ITP.ISSUES.find((entry) => entry.id === id) || ITP.ISSUES[0];
+  // The room as Outlook's room list names it, which tickets use: "EMG VIC Boardroom".
+  const directory = (room) => room.directory || room.name;
+  // The room with its office, for the tag on a poster: "VIC · Boardroom".
+  const tag = (room) => (room.site ? `${room.site} · ${room.name}` : room.name);
 
   // What a room's QR code fills in on Ticketing's New Ticket form.
   function ticketFields(room, issueId, priority = 'Medium') {
     const problem = issue(issueId);
     return {
-      subject: problem.subject.replace(/\{room\}/g, room.name),
-      description: `Raised from the QR code in the ${room.where ? `${room.name} (${room.where})` : room.name}.`,
+      subject: problem.subject.replace(/\{room\}/g, directory(room)),
+      description: `Raised from the QR code in ${directory(room)}${room.where ? `, ${room.where}` : ''}.`,
       category: problem.category,
       subcategory: problem.subcategory,
       priority,
@@ -88,7 +92,7 @@
   const kbd = (key) => `<kbd class="p-kbd">${key}</kbd>`;
   const keys = (...list) => `<span class="p-combo">${list.map(kbd).join('<span class="p-plus">+</span>')}</span>`;
 
-  const head = (room) => `<header class="p-head">${logoSVG('p-logo')}<p class="p-room"><i class="p-dia"></i>${esc(room.name)}</p></header>`;
+  const head = (room) => `<header class="p-head">${logoSVG('p-logo')}<p class="p-room"><i class="p-dia"></i>${esc(tag(room))}</p></header>`;
 
   // The strip along the bottom: the room's QR code for this problem, and what to do with it.
   function helpBand(room, issueId, ctx, title, text) {
@@ -98,7 +102,7 @@
       : 'Scan to raise a ticket with this room filled in.';
     const alt = ctx.target === 'email' ? `Or raise a ticket in the EMG Portal.` : `No phone? Email <b>${esc(ITP.SERVICE_DESK)}</b>`;
     return `<footer class="p-band">
-      <div class="p-qr">${qrSVG(link, `QR code: raise a ticket for the ${room.name}`)}</div>
+      <div class="p-qr">${qrSVG(link, `QR code: raise a ticket for ${directory(room)}`)}</div>
       <div class="p-band__text">
         <p class="p-band__h">${title}</p>
         ${text ? `<p>${text}</p>` : ''}
@@ -216,7 +220,7 @@
           : 'Scan with your phone\'s camera to raise a ticket. Ticketing opens with this room filled in: add what happened and select <b>Create Ticket</b>.'}</p>
       </div>
       <div class="p-scan">
-        <div class="p-qr p-qr--big">${qrSVG(link, `QR code: raise a ticket for the ${room.name}`)}</div>
+        <div class="p-qr p-qr--big">${qrSVG(link, `QR code: raise a ticket for ${directory(room)}`)}</div>
         <dl class="p-filled">
           <dt>Filled in for you</dt>
           <dd><span>Subject</span>${esc(fields.subject)}</dd>
@@ -238,7 +242,7 @@
     const face = (flipped) => `<div class="tent-face${flipped ? ' is-flipped' : ''}">
       <div class="tent-id">
         ${logoSVG('p-logo')}
-        <p class="p-kicker">${esc(room.name)}</p>
+        <p class="p-kicker">${esc(tag(room))}</p>
         <h2 class="p-say">Something<br>not <span class="p-hl">working?</span></h2>
         <p class="p-lede">Scan the problem. ${ctx.target === 'email' ? 'An email to the service desk' : 'A ticket'} opens with it filled in.</p>
       </div>
@@ -261,8 +265,8 @@
     const poster = POSTERS.find((entry) => entry.id === posterId) || POSTERS[0];
     const size = SIZES[poster.sizes.includes(ctx.size) ? ctx.size : poster.sizes[0]];
     const theme = THEMES[ctx.theme] ? ctx.theme : poster.theme;
-    return `<article class="sheet t-${theme} sheet--${poster.id}" style="--ratio:${size.w} / ${size.h};--pw:${size.w}mm;--ph:${size.h}mm" aria-label="${esc(`${poster.title} poster for the ${room.name}`)}">${poster.draw(room, ctx)}</article>`;
+    return `<article class="sheet t-${theme} sheet--${poster.id}" style="--ratio:${size.w} / ${size.h};--pw:${size.w}mm;--ph:${size.h}mm" aria-label="${esc(`${poster.title} poster for ${directory(room)}`)}">${poster.draw(room, ctx)}</article>`;
   }
 
-  ITP.art = { SIZES, THEMES, POSTERS, TENT_ISSUES, esc, issue, ticketFields, ticketLink, qrSVG, qrInfo, sheet };
+  ITP.art = { SIZES, THEMES, POSTERS, TENT_ISSUES, esc, issue, directory, tag, ticketFields, ticketLink, qrSVG, qrInfo, sheet };
 })();

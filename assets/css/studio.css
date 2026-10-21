@@ -55,6 +55,20 @@ select.input { cursor: pointer; }
 .seg input:checked + span { background: var(--primary); color: var(--on-primary); }
 .seg input:focus-visible + span, .pickcard input:focus-visible + .pickcard__body, .issues input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
 
+/* Room picker: the rooms under their office */
+.roompick { display: grid; gap: 12px; }
+.roompick__site { display: grid; gap: 6px; }
+.roompick__label { font: 600 .74rem/1.2 var(--mono); color: var(--accent-ink); }
+.roompick__rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 6px; }
+.roompick label { position: relative; min-width: 0; cursor: pointer; }
+.roompick input { position: absolute; opacity: 0; pointer-events: none; }
+.roompick label > span { display: grid; place-items: center; min-height: 40px; padding: 6px 8px; border: 1.5px solid var(--line-strong); background: var(--bg); text-align: center; font-size: .84rem; font-weight: 600; line-height: 1.2; transition: background .15s, border-color .15s, color .15s; }
+.roompick label:hover span { border-color: var(--accent); }
+.roompick input:checked + span { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.roompick input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+.roomedit__outlook { display: grid; gap: 4px; padding: 10px 12px; background: var(--raised); font-size: .84rem; font-weight: 600; color: var(--heading); overflow-wrap: anywhere; }
+.roomedit__outlook .mono { font-size: .76rem; font-weight: 500; color: var(--muted); }
+
 /* Poster picker */
 .pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .pickcard { display: block; min-width: 0; cursor: pointer; }

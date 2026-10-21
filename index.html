@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>IT Help Posters | Energy Matrix Group</title>
-<meta name="description" content="Posters and QR codes for the Board Room and the Meeting Room: fixing a Teams call, sharing a screen, and raising a ticket from the room.">
+<meta name="description" content="Posters and QR codes for EMG's meeting rooms in Victoria and Western Australia: fixing a Teams call, sharing a screen, and raising a ticket from the room.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#2B3340">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -47,7 +47,7 @@
       <div class="sec__head">
         <p class="eyebrow">IT help posters</p>
         <h1 class="h1" id="hero-title">Help that lives <span class="hl">in the room</span></h1>
-        <p class="lede">Posters and QR codes for the Board Room and the Meeting Room: getting a Teams call working, sharing a screen, and raising a ticket from the room you're in.</p>
+        <p class="lede">Posters and QR codes for EMG's meeting rooms in Victoria and Western Australia: getting a Teams call working, sharing a screen, and raising a ticket from the room you're in.</p>
         <ol class="steps">
           <li><b>1</b>Pick a room</li>
           <li><b>2</b>Pick a poster</li>
@@ -74,7 +74,7 @@
         <form class="panel" id="studio-form" aria-label="Poster settings" onsubmit="return false">
           <fieldset class="field">
             <legend class="label">Room</legend>
-            <div class="seg" data-rooms="room"></div>
+            <div class="roompick" data-rooms="room"></div>
           </fieldset>
 
           <fieldset class="field">
@@ -101,6 +101,7 @@
           <div class="actions">
             <button class="btn" type="button" id="print-one"><span data-icon="printer"></span>Print or save as PDF</button>
             <button class="btn btn--line" type="button" id="print-set"><span data-icon="printer"></span><span id="print-set-label">Print the room's 3 posters</span></button>
+            <button class="btn btn--line" type="button" id="print-all"><span data-icon="printer"></span><span id="print-all-label">Print every room's posters</span></button>
           </div>
           <p class="small tip">In the print dialog choose <b>Save as PDF</b> to make a file. Keep the scale at 100% and the margins at None.</p>
         </form>
@@ -125,7 +126,7 @@
         <form class="panel" id="qr-form" aria-label="QR code settings" onsubmit="return false">
           <fieldset class="field">
             <legend class="label">Room</legend>
-            <div class="seg" data-rooms="qrRoom"></div>
+            <div class="roompick" data-rooms="qrRoom"></div>
           </fieldset>
           <fieldset class="field">
             <legend class="label">Problem</legend>
@@ -187,8 +188,8 @@
           <table class="fieldtable">
             <thead><tr><th>Field</th><th>Example</th><th>On the form</th></tr></thead>
             <tbody>
-              <tr><td class="mono">subject</td><td>Board Room: camera not working</td><td>Subject</td></tr>
-              <tr><td class="mono">description</td><td>Raised from the QR code in the Board Room (Level 2).</td><td>Description, ready for them to add what happened</td></tr>
+              <tr><td class="mono">subject</td><td>EMG VIC Boardroom: camera not working</td><td>Subject, with the room's name from Outlook</td></tr>
+              <tr><td class="mono">description</td><td>Raised from the QR code in Port Apartment (VIC), Melbourne, Victoria.</td><td>Description, ready for them to add what happened</td></tr>
               <tr><td class="mono">category</td><td>Facilities / AV</td><td>Category, matched by name</td></tr>
               <tr><td class="mono">subcategory</td><td>Conference room AV issue</td><td>Subcategory, matched by name, which also fills the team</td></tr>
               <tr><td class="mono">priority</td><td>High</td><td>Priority, left out when it is Medium</td></tr>

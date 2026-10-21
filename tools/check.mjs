@@ -159,7 +159,7 @@ try {
   expect(link.path === 'https://portal.apps.energymatrix.com.au/handoff' && link.app === 'ticketing', 'Ticket links go through the portal hand-off to Ticketing');
   expect(link.safe, 'The return path passes the portal\'s safeReturn rules');
   expect(link.form === '/tickets/new', 'The return path opens New Ticket');
-  expect(link.fields.subject === 'Board Room: camera not working' && link.fields.category === 'Facilities / AV' && link.fields.subcategory === 'Conference room AV issue' && link.fields.priority === 'High' && link.fields.description === 'Raised from the QR code in the Board Room.', 'New Ticket receives the subject, description, category, subcategory and priority');
+  expect(link.fields.subject === 'EMG VIC Boardroom: camera not working' && link.fields.category === 'Facilities / AV' && link.fields.subcategory === 'Conference room AV issue' && link.fields.priority === 'High' && link.fields.description === 'Raised from the QR code in EMG VIC Boardroom.', 'New Ticket receives the subject, description, category, subcategory and priority');
   await page.close();
 } finally {
   await browser.close();

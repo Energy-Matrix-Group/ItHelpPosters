@@ -28,6 +28,8 @@
     try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
     const s = { ...DEFAULTS, ...saved, rooms: { ...(saved.rooms || {}) } };
     const rooms = ITP.ROOMS.map((r) => r.id);
+    // Changes to a room that config.js no longer has are dropped.
+    Object.keys(s.rooms).forEach((id) => { if (!rooms.includes(id)) delete s.rooms[id]; });
     if (!rooms.includes(s.room)) s.room = DEFAULTS.room;
     if (!rooms.includes(s.qrRoom)) s.qrRoom = DEFAULTS.qrRoom;
     if (!A.POSTERS.some((p) => p.id === s.poster)) s.poster = DEFAULTS.poster;
@@ -54,16 +56,22 @@
   // The chosen paper when the poster comes in it, otherwise A4, otherwise the poster's own.
   const sizeFor = (p, size = state.size) => (p.sizes.includes(size) ? size : p.sizes.includes('a4') ? 'a4' : p.sizes[0]);
   const ctx = (extra = {}) => ({ size: sizeFor(poster()), theme: state.theme, target: state.target, priority: state.priority, ...extra });
-  const slug = (text) => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'room';
 
   // ---------------------------------------------------------------- controls
 
   const seg = (name, options, current) => options.map(([value, label]) => `<label><input type="radio" name="${name}" value="${esc(value)}"${value === current ? ' checked' : ''}><span>${label}</span></label>`).join('');
 
+  // The rooms, under the office each is in.
   function renderRoomPicks() {
     document.querySelectorAll('[data-rooms]').forEach((el) => {
       const name = el.dataset.rooms;
-      el.innerHTML = seg(name, ITP.ROOMS.map((r) => [r.id, esc(room(r.id).name)]), state[name]);
+      el.innerHTML = ITP.SITES.map((site) => {
+        const rooms = ITP.ROOMS.filter((r) => r.site === site.id);
+        return rooms.length ? `<div class="roompick__site" role="group" aria-label="${esc(site.name)}">
+          <span class="roompick__label">${esc(site.name)}</span>
+          <div class="roompick__rooms">${rooms.map((r) => `<label title="${esc(`${A.directory(r)}${r.mailbox ? `, ${r.mailbox}` : ''}`)}"><input type="radio" name="${name}" value="${r.id}"${r.id === state[name] ? ' checked' : ''}><span>${esc(room(r.id).name)}</span></label>`).join('')}</div>
+        </div>` : '';
+      }).join('');
     });
   }
 
@@ -89,7 +97,8 @@
   function renderRoomFields() {
     const r = room(state.room);
     const base = baseRoom(state.room);
-    $('room-fields').innerHTML = ROOM_FIELDS.map(([key, label, hint]) => `<label class="field">
+    $('room-fields').innerHTML = `<p class="roomedit__outlook"><span class="label">In Outlook</span>${esc(A.directory(base))}${base.mailbox ? `<br><span class="mono">${esc(base.mailbox)}</span>` : ''}</p>`
+      + ROOM_FIELDS.map(([key, label, hint]) => `<label class="field">
         <span class="label">${label}</span>
         <input class="input" data-room-field="${key}" value="${esc(r[key])}" placeholder="${esc(base[key])}" autocomplete="off">
         <small class="hint">${hint}</small></label>`).join('')
@@ -126,7 +135,7 @@
     const stage = $('stage');
     stage.style.setProperty('--ar', String(size.w / size.h));
     stage.innerHTML = A.sheet(p.id, r, ctx());
-    $('stage-label').textContent = `${p.title} · ${r.name}`;
+    $('stage-label').textContent = `${p.title} · ${A.directory(r)}`;
     $('stage-size').textContent = `${size.label} · ${size.w} × ${size.h} mm`;
   }
 
@@ -153,8 +162,17 @@
     printNow();
   }
 
+  // The same three posters for every room.
+  function printAll() {
+    const size = state.size === 'a3' ? 'a3' : 'a4';
+    setPrint(ITP.ROOMS.flatMap((r) => SET.map((id) => [id, r.id, size])));
+    printNow();
+  }
+
   function renderSetLabel() {
-    $('print-set-label').textContent = `Print the ${room(state.room).name}'s 3 posters (${state.size === 'a3' ? 'A3' : 'A4'})`;
+    const paper = state.size === 'a3' ? 'A3' : 'A4';
+    $('print-set-label').textContent = `Print the ${A.tag(room(state.room))} posters (3, ${paper})`;
+    $('print-all-label').textContent = `Print every room's posters (${ITP.ROOMS.length * SET.length}, ${paper})`;
   }
 
   // ---------------------------------------------------------------- QR codes
@@ -172,7 +190,7 @@
   function current() {
     const r = room(state.qrRoom);
     const link = A.ticketLink(r, state.qrIssue, { target: state.target, priority: state.priority });
-    return { r, link, file: `qr-${slug(r.name)}-${state.qrIssue}${state.target === 'email' ? '-email' : ''}` };
+    return { r, link, file: `qr-${r.id}-${state.qrIssue}${state.target === 'email' ? '-email' : ''}` };
   }
 
   function renderQR() {
@@ -186,7 +204,7 @@
       <div class="qrcard__code">${A.qrSVG(link, `QR code: ${fields.subject}`)}</div>
       <div class="qrcard__info">
         <div>
-          <p class="label">${esc(r.name)} · ${email ? 'email' : 'Ticketing'}</p>
+          <p class="label">${esc(A.directory(r))} · ${email ? 'email' : 'Ticketing'}</p>
           <h3 class="h3">${esc(problem.label)}</h3>
           <p class="spec">Version ${info.version}, ${info.modules} × ${info.modules} modules. Prints well from ${info.minMm / 10} cm wide.</p>
         </div>
@@ -321,6 +339,7 @@
 
   $('print-one').addEventListener('click', () => { syncPrint(); printNow(); });
   $('print-set').addEventListener('click', printSet);
+  $('print-all').addEventListener('click', printAll);
   window.addEventListener('afterprint', syncPrint);
 
   document.querySelectorAll('[data-logo]').forEach((el) => { el.innerHTML = logoSVG(); });
